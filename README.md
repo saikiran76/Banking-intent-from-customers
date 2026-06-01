@@ -66,6 +66,7 @@ Inference pipeline: Customer query -> Redact PII -> Predict banking intent
 Monitor: Track live performance, potential data drift, and collect data for retraining
 
 ## Mermaid diagram for it make sense
+```mermaid
 flowchart TD
     A["1 · Business understanding\nAutomate classification of customer queries into 77 banking intents\n↳ Improve first-response accuracy · Reduce manual triage time"]
     B["2 · Data understanding\nBanking77 — labeled queries across 77 intent classes\n↳ Class distribution & imbalance · Text length analysis"]
@@ -93,5 +94,3 @@ flowchart TD
     style H fill:#E1F5EE,stroke:#0F6E56,color:#085041
     style I fill:#FAECE7,stroke:#993C1D,color:#712B13
     style J fill:#EEEDFE,stroke:#534AB7,color:#3C3489
-
-
