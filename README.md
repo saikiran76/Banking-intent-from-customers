@@ -21,6 +21,7 @@ Implementing an effective intent recognition system yields measurable financial 
 - Decrease manual ticket triage volume by 50% through automated categorization.
 - Proactive Analytics: Banks can track sudden spikes in specific intents 
 
+## A look at the data
 Few of the top intents in the data:
 ``Index(['card_payment_fee_charged', 'direct_debit_payment_not_recognised',
        'balance_not_updated_after_cheque_or_cash_deposit',
@@ -70,7 +71,7 @@ AI ethics: Ensure data security and privacy of customer queries by redacting sen
 Inference pipeline: Customer query -> Redact PII -> Predict banking intent
 Monitor: Track live performance, potential data drift, and collect data for retraining
 
-## Mermaid diagram for it make sense
+## Mermaid diagram for it to make sense
 ```mermaid
 flowchart TD
     A["1 · Business understanding\nAutomate classification of customer queries into 77 banking intents\n↳ Improve first-response accuracy · Reduce manual triage time"]
