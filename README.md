@@ -21,6 +21,7 @@ Implementing an effective intent recognition system yields measurable financial 
 - Decrease manual ticket triage volume by 50% through automated categorization.
 - Proactive Analytics: Banks can track sudden spikes in specific intents 
 
+## A look at the data
 Few of the top intents in the data:
 ``Index(['card_payment_fee_charged', 'direct_debit_payment_not_recognised',
        'balance_not_updated_after_cheque_or_cash_deposit',
@@ -42,30 +43,35 @@ Here’s a simple CRISP-DM framework using Banking77 dataset:
 
 Improve first-response accuracy
 Reduce manual triage time for customer support
+
 2. Data Understanding: The Banking77 dataset contains labeled customer queries across 77 banking intent classes.
 
 Inspect class distribution and identify imbalances
 Analyze text lengths across intent classes
+
 3. Data Preparation: Clean and preprocess text for modeling.
 
 Normalize, pad, and/or truncate text
 Tokenization using transformer-compatible tokenizers
+
 4. Modeling: Finetuned transformer-based model for contextual understanding and performance.
 
 Baseline: Multi-Layer Perceptron (MLP)
 Advanced model: Finetuned RoBERTa using LoRA
+
 5. Evaluation: Define classification performance metrics.
 
 Primary metric: Macro F1 Score
 Secondary metrics: Overall accuracy, precision, recall
 Comparison: Baseline vs advanced model performance
+
 6. Deployment: Save and load the finetuned LoRA-RoBERTa model.
 
 AI ethics: Ensure data security and privacy of customer queries by redacting sensitive personally identifiable information (PII)
 Inference pipeline: Customer query -> Redact PII -> Predict banking intent
 Monitor: Track live performance, potential data drift, and collect data for retraining
 
-## Mermaid diagram for it make sense
+## Mermaid diagram for it to make sense
 ```mermaid
 flowchart TD
     A["1 · Business understanding\nAutomate classification of customer queries into 77 banking intents\n↳ Improve first-response accuracy · Reduce manual triage time"]
