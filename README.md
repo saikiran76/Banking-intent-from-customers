@@ -100,3 +100,11 @@ flowchart TD
     style H fill:#E1F5EE,stroke:#0F6E56,color:#085041
     style I fill:#FAECE7,stroke:#993C1D,color:#712B13
     style J fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+```
+
+## One of the few observations when evaluating the model with MLP
+
+> [!WARNING]
+> **Model Limitation**
+>
+> Although the MLP achieves a strong overall accuracy of **88%** with a macro F1-score of **0.88**, there is still significant room for improvement. Some business-critical intents exhibit relatively low precision and/or recall. For example, the intent **`balance_not_updated_after_bank_transfer`** achieves only **60% precision**, meaning that approximately **40%** of predictions assigned to this intent are incorrect. In a customer support setting, such misclassifications could route users to the wrong resolution workflow, negatively impacting customer experience.
