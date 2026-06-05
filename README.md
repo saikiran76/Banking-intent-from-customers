@@ -108,3 +108,131 @@ flowchart TD
 > **Model Limitation**
 >
 > Although the MLP achieves a strong overall accuracy of **88%** with a macro F1-score of **0.88**, there is still significant room for improvement. Some business-critical intents exhibit relatively low precision and/or recall. For example, the intent **`balance_not_updated_after_bank_transfer`** achieves only **60% precision**, meaning that approximately **40%** of predictions assigned to this intent are incorrect. In a customer support setting, such misclassifications could route users to the wrong resolution workflow, negatively impacting customer experience.
+
+## Heading to use Roberta
+![alt text](image-1.png)
+
+### A look at Roberta Layer 
+| Property              | Value          |
+| --------------------- | -------------- |
+| Model                 | `roberta-base` |
+| Layers                | 12             |
+| Hidden Size           | 768            |
+| Attention Heads       | 12             |
+| Head Dimension        | 64             |
+| Context Length        | 514            |
+| FFN Intermediate Size | 3,072          |
+| Attention Type        | Self-Attention |
+
+### Language Modeling Head (`lm_head.decoder`)
+
+| Component       | Value             |
+| --------------- | ----------------- |
+| Module Type     | `Linear`          |
+| Module Path     | `lm_head.decoder` |
+| Vocabulary Size | 50,265            |
+
+**Purpose:** Projects the final hidden representation (`768` dimensions) into the vocabulary space (`50,265` tokens) to produce token prediction logits during Masked Language Modeling (MLM).
+
+### RoBERTa vs the standard BERT: Architectural Differences
+At a high level, RoBERTa is not a new architecture. It uses essentially the same Transformer encoder architecture as BERT:
+| Component               | BERT Base | RoBERTa Base |
+| ----------------------- | --------- | ------------ |
+| Layers                  | 12        | 12           |
+| Hidden Size             | 768       | 768          |
+| Attention Heads         | 12        | 12           |
+| Head Dimension          | 64        | 64           |
+| Encoder-only            | Yes       | Yes          |
+| Bidirectional Attention | Yes       | Yes          |
+
+Because of this, both are excellent for:
+
+- Text classification
+- Sentiment analysis
+- Intent detection
+- NER
+- Semantic similarity
+- Question answering
+
+### Then What RoBERTa Changed
+
+The improvements come almost entirely from pretraining strategy, not architecture.
+| Feature                        | BERT        | RoBERTa     |
+| ------------------------------ | ----------- | ----------- |
+| Next Sentence Prediction (NSP) | ✅ Used      | ❌ Removed   |
+| Dynamic Masking                | ❌ Static    | ✅ Dynamic   |
+| Training Data Size             | ~16GB       | ~160GB      |
+| Training Duration              | Shorter     | Much Longer |
+| Batch Size                     | Smaller     | Larger      |
+| Byte-Pair Encoding             | ❌ WordPiece | ✅ BPE       |
+
+1. Removed NSP
+
+BERT learns two tasks:
+
+- Masked Language Modeling (MLM)
+- Next Sentence Prediction (NSP)
+
+Researchers later found NSP contributes little to downstream performance. RoBERTa removes NSP entirely and focuses all capacity on MLM.
+
+2. Dynamic Masking
+
+#### BERT:
+```
+Epoch 1:
+The [MASK] is red
+
+Epoch 2:
+The [MASK] is red
+```
+
+Same token remains masked.
+##### RoBERTa
+```
+Epoch 1:
+The [MASK] is red
+
+Epoch 2:
+The apple is [MASK]
+```
+
+- Mask locations change every epoch.
+
+- This exposes the model to far more prediction patterns and improves language understanding.
+
+### 3. Training on Significantly Larger and More Diverse Data
+
+One of the most impactful improvements in RoBERTa comes from the scale and diversity of its pretraining corpus.
+
+| Model       | Training Data                                                           |
+| ----------- | ----------------------------------------------------------------------- |
+| **BERT**    | BooksCorpus + English Wikipedia (~16GB)                                 |
+| **RoBERTa** | BooksCorpus, Wikipedia, Common Crawl, OpenWebText, and Stories (~160GB) |
+
+By training on nearly **10× more data**, RoBERTa is exposed to a much broader range of vocabulary, writing styles, sentence structures, and contextual relationships. This allows the model to learn richer language representations and improve its understanding of real-world text.
+
+### Why RoBERTa Often Performs Better
+
+Although BERT and RoBERTa share the same underlying Transformer encoder architecture, RoBERTa generally achieves stronger downstream performance due to its improved pretraining strategy.
+
+| Model            | Typical Performance                                          |
+| ---------------- | ------------------------------------------------------------ |
+| **BERT Base**    | Strong baseline                                              |
+| **RoBERTa Base** | Typically 1–4% higher performance across many NLP benchmarks |
+
+Some key reasons for this improvement include:
+
+* Better contextual embeddings learned from larger and more diverse training data.
+* Improved handling of rare words and less common language patterns.
+* More robust sentence representations due to dynamic masking.
+* Better generalization to unseen examples and downstream tasks.
+
+As a result, RoBERTa has become a widely adopted replacement for BERT in many text understanding applications, including:
+
+* Sentiment Analysis
+* Intent Classification
+* Financial NLP
+* Customer Support Routing
+* Toxicity Detection
+* Text Classification
+* Named Entity Recognition (NER)
